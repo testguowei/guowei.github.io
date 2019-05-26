@@ -7,6 +7,13 @@
     </url>
     
     <url>
+        <loc>http://www.helloblog.top/about/</loc>
+        <lastmod>2019-05-26T03:57:15.303Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    
+    <url>
         <loc>http://www.helloblog.top/tags/</loc>
         <lastmod>2019-05-25T16:37:48.076Z</lastmod>
         <changefreq>weekly</changefreq>
@@ -15,13 +22,6 @@
     
     <url>
         <loc>http://www.helloblog.top/404.html</loc>
-        <lastmod>2019-05-25T16:37:48.068Z</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>http://www.helloblog.top/about/</loc>
         <lastmod>2019-05-25T16:37:48.068Z</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
