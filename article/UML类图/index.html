@@ -14,11 +14,11 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <title>
         
-          郭伟 | Blog
+          [Tools]UML类图 - 郭伟 | Blog
         
     </title>
 
-    <link rel="canonical" href="http://www.helloblog.top/archives/">
+    <link rel="canonical" href="http://www.helloblog.top/article/UML类图/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -71,8 +71,8 @@
 <style type="text/css">
     header.intro-header{
         
-            background-image: url('/img/header_img/archives-widget.jpg')
-            /*page*/
+            background-image: url('https://res.cloudinary.com/helloblog/image/upload/v1559055450/20190528/photo-1557474295-714ea5fc2557_g2qzha.jpg')
+            /*post*/
         
     }
     
@@ -85,10 +85,18 @@
             <div class="row">
                 <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
                 
-                    <div class="site-heading">
-                        <h1>郭伟</h1>
-                        <!--<hr class="small">-->
-                        <span class="subheading">个人博客</span>
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                              <a class="tag" href="/tags/#Tools" title="Tools">Tools</a>
+                            
+                        </div>
+                        <h1>[Tools]UML类图</h1>
+                        <h2 class="subheading">记录下UML关系以免忘记</h2>
+                        <span class="meta">
+                            Posted by 郭伟 on
+                            2019-05-28
+                        </span>
                     </div>
                 
 
@@ -191,286 +199,170 @@
 
 
     <!-- Main Content -->
-    <!-- Main Content -->
-<div class="container">
-    <div class="row">
-        
+    <!-- Modify by Yu-Hsuan Yen -->
 
-<!-- USE SIDEBAR -->
-    <!-- Post Container -->
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
             <div class="
-                col-lg-8 col-lg-offset-1
-                col-md-8 col-md-offset-1
-                col-sm-12
-                col-xs-12
-                post-container
-            ">
-            
-                
-<!-- Main Content -->
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-            <!-- 归档列表 -->
-            
-            
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
 
-             <!-- 归档列表 -->
+                <blockquote>
+<p>做了几年的开发,居然还看不懂UML类图好失败,现在在记录其他学习资料的时候顺便再次学习和整理UML,我这边使用的Ubuntu上的umbrello.</p>
+</blockquote>
+<h1 id="工具下载与安装">工具下载与安装</h1>
+<h2 id="umbrello下载">UMbrello下载</h2>
+<p>你直接点击去Ubuntu@Packages<a href="https://packages.ubuntu.com/disco/amd64/umbrello/download" target="_blank" rel="noopener">官网下载</a><br>
+<img src="https://res.cloudinary.com/helloblog/image/upload/v1559051794/20190528/umlbrello_deb_screenshort_zyy6wn.png" alt="umbrello"><br>
+也可以使用下面命令下载;</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">wget</span> <span class="attr">http://kr.archive.ubuntu.com/ubuntu/pool/universe/u/umbrello/umbrello_18.12.3-0ubuntu1_amd64.deb</span></span><br></pre></td></tr></table></figure>
+<h2 id="umbrello安装">UMbrello安装</h2>
+<p>上面这个随便选一个,使用<code>sudo dpkg -i umbrello_4.13.0-0ubuntu1_amd64.deb</code>时会出现缺少依赖库问题,<code>sudo apt-get -f install</code>修复缺少依赖库问题,<br>
+再次重复<code>sudo dpkg -i umbrello_4.13.0-0ubuntu1_amd64.deb</code>完成安装</p>
+<hr>
+<h1 id="uml使用与介绍">UML使用与介绍</h1>
 
-            
-            <div class="one-tag-list">
-                <span class="fa fa-calendar-times-o listing-seperator" id="2019">
-                    <span class="tag-text">2019</span>
-                </span>
-                <ul>
                 
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    06-02
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/Android-Android中的JobScheduler与JobService/" style="color: #0085a1">
-                        <span>
-                            [Android]Android中的JobScheduler与JobService
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    05-30
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/复习-Android复习大纲/" style="color: #0085a1">
-                        <span>
-                            [复习]Android复习大纲
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    05-28
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/UML类图/" style="color: #0085a1">
-                        <span>
-                            [Tools]UML类图
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    05-27
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/单一职责原则/" style="color: #0085a1">
-                        <span>
-                            [设计模式]单一职责原则
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    05-27
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/Android设计模式/" style="color: #0085a1">
-                        <span>
-                            [设计模式]Android设计模式
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    05-26
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/5月/Hexo写作/" style="color: #0085a1">
-                        <span>
-                            [Hexo]写作
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
-                  <!-- <li class="listing-item">
-                  <time datetime="{{ post.date | date:"%Y-%m-%d" }}">{{ post.date | date:"%Y-%m-%d" }}</time>
-                  <a href="{{ post.url }}" title="{{ post.title }}">{{ post.title }}</a>
-                  </li> -->
-                 <li >
-                    05-26
-                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
-                    <a href="/article/5月/利用GitHub创建个人博客/" style="color: #0085a1">
-                        <span>
-                            “[Hexo]利用GitHub搭建个人博客”
-                        </span>
-                    </a>
-                    <!-- <p class="post-meta">{{ post.date | date:"%Y-%m-%d" }}</p> -->
-                </li>
-                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                        <li class="previous">
+                            <a href="/article/复习-Android复习大纲/" data-toggle="tooltip" data-placement="top" title="[复习]Android复习大纲">&larr; Previous Post</a>
+                        </li>
+                    
+                    
+                        <li class="next">
+                            <a href="/article/单一职责原则/" data-toggle="tooltip" data-placement="top" title="[设计模式]单一职责原则">Next Post &rarr;</a>
+                        </li>
+                    
                 </ul>
-            </div>
-            
-
-
-        </div>
-    </div>
-</div>
 
                 <br>
 
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
                 <!-- require APlayer -->
                 
 
-                <!-- 如果开启评论功能 -->
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#工具下载与安装"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">&#x5DE5;&#x5177;&#x4E0B;&#x8F7D;&#x4E0E;&#x5B89;&#x88C5;</span></a><ol class="toc-nav-child"><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#umbrello下载"><span class="toc-nav-number">1.1.</span> <span class="toc-nav-text">UMbrello&#x4E0B;&#x8F7D;</span></a></li><li class="toc-nav-item toc-nav-level-2"><a class="toc-nav-link" href="#umbrello安装"><span class="toc-nav-number">1.2.</span> <span class="toc-nav-text">UMbrello&#x5B89;&#x88C5;</span></a></li></ol></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#uml使用与介绍"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">UML&#x4F7F;&#x7528;&#x4E0E;&#x4ECB;&#x7ECD;</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                          <a class="tag" href="/tags/#Tools" title="Tools">Tools</a>
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
                 
             </div>
-
-          <!-- Sidebar Container -->
-<div class="
-    col-lg-3 col-lg-offset-0
-    col-md-3 col-md-offset-0
-    col-sm-12
-    col-xs-12
-    sidebar-container
-">
-    
-        <!-- Featured Tags -->
-
-<section>
-    <!-- no hr -->
-    <h5><a href="/tags/">FEATURED TAGS</a></h5>
-    <div class="tags">
-        
-            
-            <a href="/tags/#设计模式" title="设计模式" rel="2">设计模式</a>
-            
-        
-            
-        
-            
-        
-            
-            <a href="/tags/#Hexo" title="Hexo" rel="2">Hexo</a>
-            
-        
-            
-        
+        </div>
     </div>
-</section>
+</article>
 
-        <hr>
-    
-        <!-- Short About -->
-<section class="visible-md visible-lg">
-    <h5><a href="/about/">ABOUT ME</a></h5>
-    <div class="short-about">
 
-        
-            <img id = "avatar_pic" src="/img/avatar/ironman.png" />
-        
 
-        
-            <p>技术小白</p>
-        
 
-        <!-- SNS Link -->
-        <ul class="list-inline">
-            
-            
-            
 
-            
 
-            
 
-            
-                <li>
-                    <a target="_blank"  href="https://github.com/testguowei">
-                        <span class="fa-stack fa-lg">
-                            <i class="fa fa-circle fa-stack-2x"></i>
-                            <i class="fa fa-github fa-stack-1x fa-inverse"></i>
-                        </span>
-                    </a>
-                </li>
-            
-            
-            
-            
-        </ul>
-    </div>
-</section>
 
-        <hr>
-    
-        
-  <h5>RECENT POSTS</h3>
-  <div class="widget">
-    <ul>
-      
-        <li>
-          <a href="/article/Android-Android中的JobScheduler与JobService/">[Android]Android中的JobScheduler与JobService</a>
-        </li>
-      
-        <li>
-          <a href="/article/复习-Android复习大纲/">[复习]Android复习大纲</a>
-        </li>
-      
-        <li>
-          <a href="/article/UML类图/">[Tools]UML类图</a>
-        </li>
-      
-        <li>
-          <a href="/article/单一职责原则/">[设计模式]单一职责原则</a>
-        </li>
-      
-        <li>
-          <a href="/article/Android设计模式/">[设计模式]Android设计模式</a>
-        </li>
-      
-    </ul>
-  </div>
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
 
-        <hr>
-    
-        <!-- Friends Blog -->
-
-        <hr>
-    
-        
-    <h5>ARCHIVES</h5>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">6</span></li></ul>
-    </div>
-
-        <hr>
-    
-</div>
-
-        
-    </div>
-</div>
 
 
     <!-- Footer -->

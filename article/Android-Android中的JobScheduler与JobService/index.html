@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keyword"  content="">
+    <link rel="shortcut icon" href="/img/ironman-draw.png">
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+    <title>
+        
+          [Android]Android中的JobScheduler与JobService - 郭伟 | Blog
+        
+    </title>
+
+    <link rel="canonical" href="http://www.helloblog.top/article/Android-Android中的JobScheduler与JobService/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS --> 
+    <link rel="stylesheet" href="/css/beantech.min.css">
+
+    <link rel="stylesheet" href="/css/donate.css">
+    
+    <!-- Pygments Highlight CSS -->
+    <link rel="stylesheet" href="/css/highlight.css">
+
+    <link rel="stylesheet" href="/css/widget.css">
+
+    <link rel="stylesheet" href="/css/rocket.css">
+
+    <link rel="stylesheet" href="/css/signature.css">
+
+    <link rel="stylesheet" href="/css/toc.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="https://cdn.staticfile.org/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+	<!-- Modified by Yu-Hsuan Yen -->
+<!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        
+            background-image: url('/img/article_header/article_bg.jpg')
+            /*post*/
+        
+    }
+    
+</style>
+
+<header class="intro-header" >
+    <!-- Signature -->
+    <div id="signature">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                
+                    <div class="post-heading">
+                        <div class="tags">
+                            
+                        </div>
+                        <h1>[Android]Android中的JobScheduler与JobService</h1>
+                        <h2 class="subheading">JobScheduler是Android5.1以后加入的,这里介绍的是Android9.0的源码</h2>
+                        <span class="meta">
+                            Posted by 郭伟 on
+                            2019-06-02
+                        </span>
+                    </div>
+                
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+	
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">郭伟</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+
+                    
+
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/about/">About</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/archive/">Archives</a>
+                        </li>
+                        
+                    
+
+                        
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+                        
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+
+    <!-- Main Content -->
+    <!-- Modify by Yu-Hsuan Yen -->
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+            <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <h1 id="summary">Summary</h1>
+<blockquote>
+<p><code>JobScheduler</code>可以安排一个周期性的任务，同时与AlarmManager相比， 它可以提前设定任务的执行条件。</p>
+</blockquote>
+<p>Source path:</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">frameworks/base/core/java/android/app/job/</span></span><br><span class="line"><span class="string">//处理Job的状态</span></span><br><span class="line"><span class="string">JobServiceEngine.java</span>    <span class="comment"># </span></span><br><span class="line"><span class="string">//这个回调来自如JobScheduler,并在主线程运行的,耗时操作仍需要起一个子线程,否则会阻赛onStopJob</span></span><br><span class="line"><span class="string">JobService.java</span>    </span><br><span class="line"><span class="string">//</span> <span class="string">用来启动或取消</span> <span class="string">JobService</span></span><br><span class="line"><span class="string">JobScheduler.java</span></span><br><span class="line"><span class="string">//可以为工作排队的工作单位</span></span><br><span class="line"><span class="string">JobWorkItem.java</span></span><br><span class="line"><span class="string">//</span> <span class="string">这个是由系统创建并传入的,程序不应该自己创建</span></span><br><span class="line"><span class="string">JobParameters.java</span></span><br><span class="line"><span class="string">//</span> <span class="string">创建Job的可选参数</span></span><br><span class="line"><span class="string">JobInfo.java</span></span><br><span class="line"></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="string">IJobCallback.aidl</span></span><br><span class="line"><span class="string">IJobScheduler.aidl</span></span><br><span class="line"><span class="string">IJobService.aidl</span></span><br><span class="line"><span class="string">JobInfo.aidl</span></span><br><span class="line"><span class="string">JobParameters.aidl</span></span><br><span class="line"><span class="string">JobWorkItem.aidl</span></span><br></pre></td></tr></table></figure>
+<h1 id="use">Use</h1>
+<p><code>JobService</code>中有两个抽象方法<code>onStartJob(JobParameters jobParameters)</code>,<code>onStopJob(JobParameters jobParameters)</code>,这两个是<code>JobServiceEngine</code>中被系统通过<code>aidl</code>回调的;</p>
+<figure class="highlight java"><figcaption><span>[]</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyJobService</span> <span class="keyword">extends</span> <span class="title">JobService</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onStartJob</span><span class="params">(JobParameters jobParameters)</span> </span>&#123;</span><br><span class="line">        Toast.makeText(getApplicationContext(),<span class="string">"onStartJob"</span>,Toast.LENGTH_SHORT).show();</span><br><span class="line">        <span class="comment">//return true&#125;如果您的服务将继续运行，则在适当时使用单独的线程</span></span><br><span class="line">        <span class="comment">//return false&#125;表示此作业已完成其工作</span></span><br><span class="line">        startJob();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startJob</span><span class="params">()</span></span>&#123;</span><br><span class="line">        JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);</span><br><span class="line">        JobInfo jobInfo = <span class="keyword">new</span> JobInfo.Builder</span><br><span class="line">                <span class="comment">//jobId 是创建Job和取消job的标示 必须是全局唯一的,否则这个job就会被更新</span></span><br><span class="line">                (<span class="number">1</span><span class="comment">/*int jobId*/</span>, <span class="keyword">new</span> ComponentName(<span class="keyword">this</span>,MyJobService.class)<span class="comment">/*ComponentName jobService*/</span>)</span><br><span class="line">                <span class="comment">//该Uri将利用ContentObserver来监控一个Content Uri，当且仅当其发生变化时将触发任务的执行</span></span><br><span class="line"><span class="comment">//                .addTriggerContentUri(/*JobInfo.TriggerContentUri uri*/)</span></span><br><span class="line">                <span class="comment">//重试策略,第一个参数时第一次尝试重试的等待间隔,单位为毫秒,第二个参数是对应的退避策略</span></span><br><span class="line"><span class="comment">//                .setBackoffCriteria(2000/*long initialBackoffMillis*/, JobInfo.BACKOFF_POLICY_EXPONENTIAL/*int backoffPolicy*/)</span></span><br><span class="line">                <span class="comment">//允许为与剪辑相关联的数据授予URI权限</span></span><br><span class="line"><span class="comment">//                .setClipData(ClipData clip, int grantFlags)</span></span><br><span class="line">                <span class="comment">//必须充电才能运行, 这里的充电只的是直接链接到充电器.</span></span><br><span class="line">                .setRequiresCharging(<span class="keyword">true</span><span class="comment">/*boolean requiresCharging*/</span>)</span><br><span class="line">                <span class="comment">//设置将执行的网络流量的估计大小</span></span><br><span class="line"><span class="comment">//                .setEstimatedNetworkBytes(long downloadBytes, long uploadBytes)</span></span><br><span class="line">                <span class="comment">//设置网络状态</span></span><br><span class="line"><span class="comment">//                .setRequiredNetworkType(JobInfo.NETWORK_TYPE_UNMETERED)</span></span><br><span class="line">                <span class="comment">//设置任务的周期</span></span><br><span class="line"><span class="comment">//                .setPeriodic(1000 * 10 * 15)</span></span><br><span class="line">                <span class="comment">//设置任务常驻，即开机启动，要求RECEIVE_BOOT_COMPLETED权限</span></span><br><span class="line"><span class="comment">//                .setPersisted(true)</span></span><br><span class="line"><span class="comment">//                .setRequiresDeviceIdle(false)</span></span><br><span class="line">                .build();</span><br><span class="line">        scheduler.schedule(jobInfo);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onStopJob</span><span class="params">(JobParameters jobParameters)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h1 id="common-interface">Common interface</h1>
+<p><code>addTriggerContentUri(JobInfo.TriggerContentUri uri)：</code><br>
+<strong>添加</strong>一个TriggerContentUri，该Uri将利用ContentObserver来监控一个Content Uri，当且仅当其发生变化时将触发任务的执行。为了持续监控content的变化，你需要在最近的任务触发后再调度一个新的任务（需要注意的是触发器URI不能与setPeriodic(long)或setPersisted(boolean)组合使用。要持续监控内容更改，需要在完成JobService处理最近的更改之前，调度新的JobInfo，观察相同的URI。因为设置此属性与定期或持久化Job不兼容，这样做会在调用build()时抛出IllegalArgumentException异常。)<br>
+<code>setBackoffCriteria(long initialBackoffMillis, int backoffPolicy)：</code><br>
+特殊：设置回退/重试的策略，详细的可以参阅Google API。<br>
+类似网络原理中的冲突退避，当一个任务的调度失败时需要重试，所采取的策略。<br>
+第一个参数时第一次尝试重试的等待间隔，单位为毫秒，预设的参数有：<br>
+<code>DEFAULT_INITIAL_BACKOFF_MILLIS 30000</code> 、<code>MAX_BACKOFF_DELAY_MILLIS 18000000</code>。<br>
+第二个参数是对应的退避策略，预设的参数有：<br>
+<code>BACKOFF_POLICY_EXPONENTIAL</code> 二进制退避。<br>
+等待间隔呈指数增长 <code>BACKOFF_POLICY_LINEAR</code>。<br>
+<code>setExtras(PersistableBundle extras)：</code>设置可选附件。这是持久的，所以只允许原始类型。<br>
+<code>setMinimumLatency(long minLatencyMillis)：</code> 这个函数能用以设置任务的延迟执行时间(毫秒），相当于post delay。<br>
+<code>setOverrideDeadline(long maxExecutionDelayMillis)：</code> 这个方法让用以设置任务最晚的延迟时间。如果到了规定的时间时其他条件还未满足，任务也会被启动。<br>
+<code>setPeriodic(long time)：</code>设置任务运行的周期（每X毫秒，运行一次）。衍生在运行一些权限检查的时候如果可以使用job scheduler的话，可以这样来循环检查权限的开启，但是目前的触发条件没有权限部分的触发。<br>
+<code>setPeriodic(long intervalMillis, long flexMillis)：</code>设置在Job周期末的一个flex长度的窗口，任务都有可能被执行 require API LEVEL 24<br>
+<code>setPersisted(boolean isPersisted):</code> 这个方法告诉系统当设备重启之后任务是否还要继续执行。<br>
+<code>setRequiredNetworkType(int networkType)：</code> 这个方法让这个任务只有在满足指定的网络条件时才会被执行。默认条件是<code>JobInfo.NETWORK_TYPE_NONE</code>，这意味着不管是否有网络这个任务都会被执行。另外两个可选类型，一种是<code>JobInfo.NETWORK_TYPE_ANY</code>，它表明需要任意一种网络才使得任务可以执行。另一种是<code>JobInfo.NETWORK_TYPE_UNMETERED</code>，它表示设备不是蜂窝网络( 比如在WIFI连接时 )时任务才会被执行。<br>
+<code>setRequiresCharging(boolean requiresCharging):</code>只有当设备在充电时这个任务才会被执行。这个也并非只是插入充电器，而且还要在电池处于健康状态的情况下才会触发，一般来说是手机电量&gt;15%<br>
+<code>setRequiresDeviceIdle(boolean requiresDeviceIdle)：</code>指定Job在空闲状态才能运行。设备处于屏幕关闭或dreaming状态（类似window的休眠动画状态）71分钟后，执行工作<br>
+<code>setTransientExtras(Bundle extras)：</code>设置可选的临时附加功能。（Android O Developer Preview）这里指定了需要Android O 系统，可以看出，Google还是在继续完善job scheduler的，期待能够代替传统的service组件成为主流。<br>
+<code>setTriggerContentMaxDelay(long durationMs)：</code>设置从第一次检测到内容更改到Job之前允许的最大总延迟（以毫秒为单位）。说人话就是设置从content变化到任务被执行，中间的最大延迟。  同样的require API 24<br>
+<code>setTriggerContentUpdateDelay(long durationMs)：</code>设置从content变化到任务被执行中间的延迟。如果在延迟期间content发生了变化，延迟会重新计算<br>
+<code>setExtras(PersistableBundle extra)：</code>Bundle</p>
+<p>$$<br>
+y = Wx + b\<br>
+\frac{\partial y}{\partial x} = W^T\<br>
+\frac{\partial y}{\partial W} = x^T<br>
+$$</p>
+<h1 id="principle">Principle</h1>
+
+                
+
+                <hr>
+                <!-- Pager -->
+                <ul class="pager">
+                    
+                    
+                        <li class="next">
+                            <a href="/article/复习-Android复习大纲/" data-toggle="tooltip" data-placement="top" title="[复习]Android复习大纲">Next Post &rarr;</a>
+                        </li>
+                    
+                </ul>
+
+                <br>
+
+                <!--打赏-->
+                
+                <!--打赏-->
+
+                <br>
+                <!--分享-->
+                
+                    <div class="social-share"  data-wechat-qrcode-helper="" align="center"></div>
+                    <!--  css & js -->
+                    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/css/share.min.css">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/social-share.js/1.0.16/js/social-share.min.js"></script>
+                
+                <!--分享-->
+                <br>                       
+                
+                <!-- require APlayer -->
+                
+
+                <!-- duoshuo Share start -->
+                
+                <!-- 多说 Share end-->
+
+                <!-- 多说评论框 start -->
+                
+                <!-- 多说评论框 end -->
+
+                <!-- disqus comment start -->
+                
+                <!-- disqus comment end -->
+
+                
+
+            </div>
+            
+            <!-- Tabe of Content -->
+            <!-- Table of Contents -->
+
+  
+    
+      <aside id="sidebar">
+        <div id="toc" class="toc-article">
+        <strong class="toc-title">Contents</strong>
+        
+          <ol class="toc-nav"><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#summary"><span class="toc-nav-number">1.</span> <span class="toc-nav-text">Summary</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#use"><span class="toc-nav-number">2.</span> <span class="toc-nav-text">Use</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#common-interface"><span class="toc-nav-number">3.</span> <span class="toc-nav-text">Common interface</span></a></li><li class="toc-nav-item toc-nav-level-1"><a class="toc-nav-link" href="#principle"><span class="toc-nav-number">4.</span> <span class="toc-nav-text">Principle</span></a></li></ol>
+        
+        </div>
+      </aside>
+    
+
+                
+            <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <!-- no hr -->
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                       
+                    </div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("https://cdn.bootcss.com/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'hover',
+          placement: 'left',
+          icon: 'ℬ'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+                    <li>
+                        <a target="_blank"  href="https://github.com/testguowei">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; 郭伟 2019 
+                    <br>
+                    Theme by <a href="http://beantech.org">BeanTech</a> 
+                    <span style="display: inline-block; margin: 0 5px;">
+                        <i class="fa fa-heart"></i>
+                    </span> 
+                    re-Ported by <a href="http://www.huweihuang.com">胡伟煌</a> | 
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="91px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huweihuang&repo=hexo-theme-huweihuang&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js"></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- 
+     Because of the native support for backtick-style fenced code blocks 
+     right within the Markdown is landed in Github Pages, 
+     From V1.6, There is no need for Highlight.js, 
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0  
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/    
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://www.helloblog.top/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-XXXXXXXX-X';
+    var _gaDomain = 'yoursite';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+
+<!-- Baidu Tongji -->
+
+<script>
+    // dynamic User by Hux
+    var _baId = 'xxx';
+
+    // Originial
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?" + _baId;
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+</script>
+
+
+
+
+
+
+	<a id="rocket" href="#top" class=""></a>
+	<script type="text/javascript" src="/js/totop.js?v=1.0.0" async=""></script>
+    <script type="text/javascript" src="/js/toc.js?v=1.0.0" async=""></script>
+<!-- Image to hack wechat -->
+<img src="http://www.helloblog.top/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
